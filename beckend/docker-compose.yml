@@ -1,0 +1,48 @@
+version: '3'
+services:
+
+  discovery:
+    image: service-discovery
+    container_name: service-discovery
+    build:
+      context: ./containerized-discovery
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  gateway:
+    image: service-gateway
+    container_name: service-gateway
+    build:
+      context: ./containerized-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8762:8762"
+    depends_on:
+      - discovery
+    links:
+      - discovery:discovery
+
+  service1:
+    image: service1
+    build:
+      context: ./containerized-service1
+      dockerfile: Dockerfile
+    ports:
+      - "2222"
+    depends_on:
+      - discovery
+    links:
+      - discovery:discovery
+
+  service2:
+    image: service2
+    build:
+      context: ./containerized-service2
+      dockerfile: Dockerfile
+    ports:
+      - "2222"
+    depends_on:
+      - discovery
+    links:
+      - discovery:discovery

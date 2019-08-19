@@ -1,0 +1,32 @@
+server:
+  port: ${PORT:8762}
+
+spring:
+  application:
+    name: containerized-gateway
+
+
+zuul:
+  routes:
+    containerized-main:
+      path: /service1/**
+      serviceId: containerized-service1
+    containerized-accounts:
+      path: /service2/**
+      serviceId: containerized-service2
+    containerized-auth:
+      path: /auth-service/**
+      serviceId: auth-service
+  
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+      
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000

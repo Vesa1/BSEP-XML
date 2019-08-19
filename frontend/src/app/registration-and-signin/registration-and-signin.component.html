@@ -1,0 +1,103 @@
+<app-nav></app-nav>
+
+<section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url(assets/img/bg-img/hero-1.jpg);">
+  <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center">
+          <div class="col-12 col-md-10">
+              <div class="hero-content">
+                  <h2>Register od sign in</h2>
+                  <h4>This is the best guide for travel</h4>
+              </div>
+              <!-- Hero Search Form -->
+              <div class="hero-search-form">
+                  <!-- Tabs -->
+                  <div class="nav nav-tabs" id="heroTab" role="tablist">
+                      <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true">Registration</a>
+                      <a class="nav-item nav-link" id="nav-events-tab" data-toggle="tab" href="#nav-events" role="tab" aria-controls="nav-events" aria-selected="false">Sign in</a>
+                  </div>
+                  <!-- Tabs Content -->
+                  <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active" id="nav-places" role="tabpanel" aria-labelledby="nav-places-tab">
+                          <h6>Start organizing your travel today!</h6>
+                          <form class = "Registration" (submit) = "validate()">
+                            <div class = "container">
+                              <div class = "row">
+                                  <div class="form-group col-lg-3">
+                                      <label for="name">Name*:</label>
+                                      <input required type = "text" minlength="2" maxlength="30" name = "name" id="name" [(ngModel)] = "user.name" #name = "ngModel" />
+                                      <div *ngIf = "nameRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">{{error}}</div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="surname">Surname*:</label>
+                                      <input required type = "text" minlength="2" maxlength="30" name="surname" id="surname" [(ngModel)] = "user.surname" #surname = "ngModel"/>
+                                      <div *ngIf = "surnameRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">{{error}}</div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="e-mail">E-mail*:</label>
+                                      <input type = "email" name="e-mail" id="e-mail" [(ngModel)] = "user.email" #email = "ngModel"/>
+                                      <div *ngIf = "emailRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">Invalid email.</div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="telephone">Telephone number*:</label>
+                                      <input name="telephone" id="telephone" type = "tel" [(ngModel)] = "user.telephone" #telephone = "ngModel"/>
+                                      <div *ngIf = "telephoneRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">Invalid telephone.(example: 064-111-2222)</div>
+                                  </div>
+                              </div>
+                              <br>
+                              <div class = "row">
+                                  <div class="form-group col-lg-3">
+                                      <label for="adress">Adress*:</label>
+                                      <input name="adress" id="adress" type = "text" [(ngModel)] = "user.adress" #adress = "ngModel" />
+                                      <div *ngIf = "adressRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">{{error}}</div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="city">City*:</label>
+                                      <input name="city" id="city" type = "text" [(ngModel)] = "user.city" #city = "ngModel" />
+                                      <div *ngIf = "cityRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">{{error}}</div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="password">Password*:</label>
+                                      <input name="password" id="password" type = "password" [(ngModel)] = "user.password" #password = "ngModel"/>
+                                      <div *ngIf = "passwordRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">Password is required, min length - 8 charachters, max length - 30 characters. </div>
+                                  </div>
+                                  <div class="form-group col-lg-3">
+                                      <label for="passwordR">Repeat password*:</label>
+                                      <input name="passwordR" id="passwordR" type = "password" [(ngModel)] = "user.passwordR" #passwordR = "ngModel"  />
+                                      <div *ngIf = "passwordRRequired" class="alert alert-danger" style = "margin-top: 2%; font-size: 10px">Repeated password is required, min length - 8 charachters, max length - 30 characters. </div>
+                                  </div>
+                              </div>
+                              <div class = "row">
+                                <div class = "col text-center">
+                                  <button type="submit" class="btn dorne-btn">Register</button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                      </div>
+
+                      <div class="tab-pane fade" id="nav-events" role="tabpanel" aria-labelledby="nav-events-tab">
+                          <h6>Welcome! Sign in.</h6>
+                          <form action="#" method="get">
+                              <div class = "container">
+                                  <div class = "row">
+                                    <div class="form-group col-sm-4">
+                                        <label for="email">Email*: </label>
+                                        <input name="email" id="email" />
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                      <label for="passwordS">Pass*: </label>
+                                      <input name="passwordS" id="passwordS" />
+                                    </div>
+                                    <div class = "col-sm-4">
+                                      <button type="submit" class="btn dorne-btn">Sign in</button>
+                                    </div>
+                                  </div>
+                                </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

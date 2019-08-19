@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8761}
+
+spring:
+  application:
+    name: discovery
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    enableSelfPreservation: false
+   
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 60000
