@@ -99,7 +99,7 @@ public class Accommodation {
     @XmlElement(required = true)
     protected Address address;
     @XmlElement(required = true)
-    protected City city;
+    protected String city;
     protected float rating;
     protected int stars;
     @XmlElement(required = true)
@@ -218,9 +218,7 @@ public class Accommodation {
      *     {@link City }
      *     
      */
-    public City getCity() {
-        return city;
-    }
+
 
     /**
      * Sets the value of the city property.
@@ -230,10 +228,8 @@ public class Accommodation {
      *     {@link City }
      *     
      */
-    public void setCity(City value) {
-        this.city = value;
-    }
 
+    
     /**
      * Gets the value of the rating property.
      * 
@@ -242,7 +238,15 @@ public class Accommodation {
         return rating;
     }
 
-    /**
+    public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	/**
      * Sets the value of the rating property.
      * 
      */

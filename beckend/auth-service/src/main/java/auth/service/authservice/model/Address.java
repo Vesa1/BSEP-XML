@@ -55,12 +55,16 @@ public class Address {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private BigInteger id;
+	private Long id;
 	
-    @XmlElement(required = true)
+    public Address() {
+		super();
+	}
+
+	@XmlElement(required = true)
     protected String addressName;
-    protected float xCord;
-    protected float yCord;
+    protected double xCord;
+    protected double yCord;
 
     /**
      * Gets the value of the addressName property.
@@ -86,36 +90,19 @@ public class Address {
         this.addressName = value;
     }
 
-    /**
-     * Gets the value of the xCord property.
-     * 
-     */
-    public float getXCord() {
-        return xCord;
-    }
+	public double getxCord() {
+		return xCord;
+	}
 
-    /**
-     * Sets the value of the xCord property.
-     * 
-     */
-    public void setXCord(float value) {
-        this.xCord = value;
-    }
+	public void setxCord(double xCord) {
+		this.xCord = xCord;
+	}
 
-    /**
-     * Gets the value of the yCord property.
-     * 
-     */
-    public float getYCord() {
-        return yCord;
-    }
+	public double getyCord() {
+		return yCord;
+	}
 
-    /**
-     * Sets the value of the yCord property.
-     * 
-     */
-    public void setYCord(float value) {
-        this.yCord = value;
-    }
-
+	public void setyCord(double yCord) {
+		this.yCord = yCord;
+	}
 }

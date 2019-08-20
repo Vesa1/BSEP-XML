@@ -13,7 +13,3 @@ eureka:
     fetchRegistry: false
   server:
     enableSelfPreservation: false
-   
-ribbon:
-  ConnectTimeout: 60000
-  ReadTimeout: 60000

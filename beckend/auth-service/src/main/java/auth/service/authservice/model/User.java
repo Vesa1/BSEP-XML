@@ -16,6 +16,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -175,9 +177,10 @@ public class User implements UserDetails {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @XmlElement(name = "ID", required = true)
     @XmlSchemaType(name = "unsignedLong")
-    protected BigInteger id;
+    protected Long id;
     @XmlElement(required = true)
     protected String name;
     @XmlElement(required = true)
@@ -193,8 +196,7 @@ public class User implements UserDetails {
     protected boolean activated;
     
     @XmlElement(required = true)
-    @ManyToOne(fetch = FetchType.LAZY)
-    protected City city;
+    protected String city;
     
     @XmlElement(required = true)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -211,9 +213,6 @@ public class User implements UserDetails {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getID() {
-        return id;
-    }
 
     /**
      * Sets the value of the id property.
@@ -223,9 +222,7 @@ public class User implements UserDetails {
      *     {@link BigInteger }
      *     
      */
-    public void setID(BigInteger value) {
-        this.id = value;
-    }
+
 
     /**
      * Gets the value of the name property.
@@ -239,7 +236,19 @@ public class User implements UserDetails {
         return name;
     }
 
-    /**
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	/**
      * Sets the value of the name property.
      * 
      * @param value
@@ -393,9 +402,7 @@ public class User implements UserDetails {
      *     {@link City }
      *     
      */
-    public City getCity() {
-        return city;
-    }
+
 
     /**
      * Sets the value of the city property.
@@ -405,9 +412,7 @@ public class User implements UserDetails {
      *     {@link City }
      *     
      */
-    public void setCity(City value) {
-        this.city = value;
-    }
+
 
     /**
      * Gets the value of the address property.
@@ -417,9 +422,7 @@ public class User implements UserDetails {
      *     {@link Address }
      *     
      */
-    public Address getAddress() {
-        return address;
-    }
+
 
     /**
      * Sets the value of the address property.
@@ -433,7 +436,11 @@ public class User implements UserDetails {
         this.address = value;
     }
 
-    /**
+    public void setCity(String city) {
+		this.city = city;
+	}
+
+	/**
      * Gets the value of the role property.
      * 
      * @return
@@ -457,4 +464,20 @@ public class User implements UserDetails {
         this.role = value;
     }
 
+	public User(String name, String surname, byte[] profileImage,
+			String telephoneNumber, String email, String password, String city, Address address,
+			Set<Authority> authorities) {
+		super();
+
+		this.name = name;
+		this.surname = surname;
+		this.profileImage = profileImage;
+		this.telephoneNumber = telephoneNumber;
+		this.email = email;
+		this.password = password;
+		this.activated = false;
+		this.city = city;
+		this.address = address;
+		this.authorities = authorities;
+	}
 }
