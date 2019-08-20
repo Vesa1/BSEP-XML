@@ -199,7 +199,7 @@ public class User implements UserDetails {
     protected String city;
     
     @XmlElement(required = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     protected Address address;
     
     @XmlElement(required = true)
