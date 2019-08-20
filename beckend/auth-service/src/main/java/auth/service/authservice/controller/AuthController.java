@@ -37,6 +37,7 @@ import auth.service.authservice.model.User;
 import auth.service.authservice.service.UserService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping("api/auth")
 public class AuthController {
 	
@@ -128,5 +129,18 @@ public class AuthController {
 	    System.out.println(fullAddress);
 		return ret;
 	}
+	
+	@RequestMapping(value = "/login", 
+			method = RequestMethod.POST, 
+			consumes =MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> login(@Valid @RequestBody RegistrationDTO u) {
+		
+		System.out.println("[AuthController][login] Logovanje...");
+		return new ResponseEntity<>(u, HttpStatus.OK);
+		
+		
+	}
+	
 
 }

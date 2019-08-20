@@ -113,4 +113,28 @@ export class RegistrationAndSigninComponent implements OnInit {
     }
     return true;
   }
+
+  validateLogin(){
+    console.log("PRITISNUTO");
+    if(!this.user.password || this.user.password.length<8 || this.user.password.length>30) {
+      this.passwordRequired = true;
+    } else {
+      this.passwordRequired = false;
+    }
+
+    this.emailRequired = this.checkEmail(this.user.email);
+
+    if(!this.emailRequired   && !this.passwordRRequired) {
+      this.userService.loginUser(this.user).subscribe(korisnik => {
+        this.checkUser = korisnik as UserRegistration;
+        if(korisnik) {
+          window.location.href = 'http://localhost:4200';
+        }else{
+          alert("TELL ME SOMETHING!!!")
+        }
+       }
+      
+      )
+    }
+  }
 }

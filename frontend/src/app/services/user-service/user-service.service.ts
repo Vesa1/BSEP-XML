@@ -17,4 +17,12 @@ export class UserServiceService {
       }
     return this.http.post(this.zuulPath.path + 'auth-service/api/auth/registration', user, config);
   }
+  loginUser(user : UserRegistration){
+    let config = {
+      headers: {
+        }
+      }
+    return this.http.post(this.zuulPath.path + 'auth-service/api/auth/login', user, config);
+  }
+
 }
