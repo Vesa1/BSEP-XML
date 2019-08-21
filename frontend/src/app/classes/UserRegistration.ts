@@ -1,10 +1,10 @@
 export class UserRegistration {
-    name: String;
-    surname: String;
-    email: String;
-    password: String;
-    passwordR: String;
-    telephone: String;
-    adress: String;
-    city: String;
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    passwordR: string;
+    telephone: string;
+    adress: string;
+    city: string;
 }

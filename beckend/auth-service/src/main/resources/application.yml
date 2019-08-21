@@ -17,8 +17,8 @@ spring:
     password: Jeca123
   jpa:
     hibernate.ddl-auto: update
-    generate-ddl: true
-    show-sql: true
+    generate-ddl: false
+    show-sql: false
 
 eureka:
   client:

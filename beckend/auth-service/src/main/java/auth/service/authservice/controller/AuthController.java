@@ -18,9 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +36,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import auth.service.authservice.dto.LoggedUserDTO;
 import auth.service.authservice.dto.RegistrationDTO;
 import auth.service.authservice.model.Address;
 import auth.service.authservice.model.User;
+import auth.service.authservice.model.UserTokenState;
+import auth.service.authservice.security.JwtTokenProvider;
 import auth.service.authservice.service.UserService;
 
 @RestController
@@ -45,7 +53,15 @@ public class AuthController {
 	private UserService userService;
 	
 	@Autowired
+    AuthenticationManager authenticationManager;
+	
+	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	
+	
+	@Autowired
+	private JwtTokenProvider  jwtTokenProvider;
 	
 	@GetMapping("/hello")
     public ResponseEntity get()
@@ -78,8 +94,16 @@ public class AuthController {
 			address = getCordinates(u.getAdress(), u.getCity());
 			address.setAddressName(u.getAdress());
 			userService.saveAddress(address);
-			User newUser = new User(u.getName(), u.getSurname(), new byte[10], u.getTelephone(), u.getEmail(), passwordEncoder.encode(u.getPassword()), u.getCity(), address, Collections.singleton(userService.findByName("registeredUser")));
+String salt = org.springframework.security.crypto.bcrypt.BCrypt.gensalt();
+			
+			System.out.println("[Auth Controller - registration] Hesiranje lozinke -----------------> ");
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String hashedPass = org.springframework.security.crypto.bcrypt.BCrypt.hashpw(u.getPassword(), salt);
+			System.out.println("hashed " + hashedPass);
+			User newUser = new User(u.getName(), u.getSurname(), new byte[10], u.getTelephone(), u.getEmail(), hashedPass, u.getCity(), address, Collections.singleton(userService.findByName("registeredUser")));
+			//User newUser = new User(u.getName(), u.getSurname(), new byte[10], u.getTelephone(), u.getEmail(), passwordEncoder.encode(u.getPassword()), u.getCity(), address, Collections.singleton(userService.findByName("registeredUser")));
 			userService.registerUser(newUser);
+			
 			return new ResponseEntity<>(newUser, HttpStatus.OK);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -136,8 +160,31 @@ public class AuthController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> login(@Valid @RequestBody RegistrationDTO u) {
 		
-		System.out.println("[AuthController][login] Logovanje...");
-		return new ResponseEntity<>(u, HttpStatus.OK);
+		System.out.println("[AuthController][login] Logovanje..." + u.getEmail() + u.getPassword());
+		System.out.println("[AuthController][login] Prosledjena pass: " + u.getPassword());
+		
+		User user = userService.getByEmail(u.getEmail());
+		System.out.println("[AuthController][login] Hasovana pass: " + user.getPassword());
+		if(org.springframework.security.crypto.bcrypt.BCrypt.checkpw(u.getPassword(), user.getPassword())){	
+			System.out.println("[AuthController][login] Uspjesna prijava, email: " + user.getEmail());
+		
+		}else {
+			System.out.println("[AuthController][login] Neuspjesna prijava.");
+			return new ResponseEntity<>(new UserTokenState("error",0), HttpStatus.NOT_FOUND);
+
+		}
+		
+		final Authentication authentication = authenticationManager
+               .authenticate(new UsernamePasswordAuthenticationToken(u.getEmail(), u.getPassword()));
+
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+       
+        String jwt = jwtTokenProvider.generateToken(user.getEmail());
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+
+		return new ResponseEntity<>(new LoggedUserDTO(u.getEmail(), jwt), HttpStatus.OK);
 		
 		
 	}

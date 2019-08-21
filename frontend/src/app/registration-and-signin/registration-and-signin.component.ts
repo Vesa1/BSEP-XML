@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserRegistration } from '../classes/UserRegistration';
 import { UserServiceService } from '../services/user-service/user-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoginParams } from '../classes/LoginParams';
+import { TokenStorageService } from '../services/token-storage/token-storage.service';
+import { Profile } from '../classes/profile';
 
 
 @Component({
@@ -22,8 +25,16 @@ export class RegistrationAndSigninComponent implements OnInit {
   cityRequired : boolean;
   passwordRequired: boolean;
   passwordRRequired : boolean;
+  
 
-  constructor(private userService : UserServiceService) { }
+  isLogged=false;
+  private loginParams: LoginParams = new LoginParams();
+  private profile : Profile;
+  
+
+
+
+  constructor(private userService : UserServiceService,private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
     this.nameRequired = false;
@@ -122,16 +133,37 @@ export class RegistrationAndSigninComponent implements OnInit {
       this.passwordRequired = false;
     }
 
+    console.log("Prosao validaciju");
     this.emailRequired = this.checkEmail(this.user.email);
+    this.loginParams.password = this.user.password;
+    this.loginParams.email = this.user.email;
+    console.log("Formirao login params");
+
+
 
     if(!this.emailRequired   && !this.passwordRRequired) {
-      this.userService.loginUser(this.user).subscribe(korisnik => {
-        this.checkUser = korisnik as UserRegistration;
-        if(korisnik) {
-          window.location.href = 'http://localhost:4200';
+
+      console.log("Usao u emailRequired");
+
+      this.userService.loginUser(this.loginParams).subscribe(data => {
+        console.log("USAO U PRIJAVU");
+        console.table(data);
+        this.profile=data;
+        this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveUsername(data.username);
+        
+        this.isLogged = true;
+        console.log(this.isLogged);
+
+        if(data) {
+          alert("Uspjesno ste se prijavili")
         }else{
           alert("TELL ME SOMETHING!!!")
         }
+       },
+       error=>{
+        console.log("SJEBALO SE NESTO");
+        alert("EVO NE ZNAM BOGU MI!")
        }
       
       )
