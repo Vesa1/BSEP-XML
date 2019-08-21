@@ -15,8 +15,9 @@ spring:
     url: jdbc:mysql://localhost:3306/MegaTravel?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: Jeca123
+    initialization-mode: always
   jpa:
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create
     generate-ddl: false
     show-sql: false
 
@@ -28,7 +29,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
-
+    
 ribbon:
   eureka:
     enabled: true

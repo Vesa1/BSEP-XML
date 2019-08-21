@@ -62,7 +62,7 @@ public class Address {
 	}
 
 	@XmlElement(required = true)
-    protected String addressName;
+    protected String name;
     protected double xCord;
     protected double yCord;
 
@@ -74,9 +74,6 @@ public class Address {
      *     {@link String }
      *     
      */
-    public String getAddressName() {
-        return addressName;
-    }
 
     /**
      * Sets the value of the addressName property.
@@ -86,12 +83,17 @@ public class Address {
      *     {@link String }
      *     
      */
-    public void setAddressName(String value) {
-        this.addressName = value;
-    }
 
 	public double getxCord() {
 		return xCord;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setxCord(double xCord) {

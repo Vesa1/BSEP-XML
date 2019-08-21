@@ -9,7 +9,8 @@ import { IndexComponent } from './index/index.component';
 import { RegistrationAndSigninComponent } from './registration-and-signin/registration-and-signin.component';
 import {FormsModule} from '@angular/forms';
 import {ZuulPath} from './classes/ZuulPath';
-
+import {ToastrModule} from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,9 @@ import {ZuulPath} from './classes/ZuulPath';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [ZuulPath],
   bootstrap: [AppComponent]

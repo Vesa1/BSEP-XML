@@ -5,6 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LoginParams } from '../classes/LoginParams';
 import { TokenStorageService } from '../services/token-storage/token-storage.service';
 import { Profile } from '../classes/profile';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -25,16 +27,12 @@ export class RegistrationAndSigninComponent implements OnInit {
   cityRequired : boolean;
   passwordRequired: boolean;
   passwordRRequired : boolean;
-  
-
   isLogged=false;
   private loginParams: LoginParams = new LoginParams();
   private profile : Profile;
   
 
-
-
-  constructor(private userService : UserServiceService,private tokenStorage: TokenStorageService) { }
+  constructor(private userService : UserServiceService, private toastrService : ToastrService,private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
     this.nameRequired = false;
@@ -98,12 +96,18 @@ export class RegistrationAndSigninComponent implements OnInit {
     this.telephoneRequired = this.checkTelephone(this.user.telephone);
 
   if(!this.nameRequired && !this.surnameRequired && !this.emailRequired && !this.cityRequired && !this.adressRequired && !this.telephoneRequired && !this.passwordRRequired && !this.passwordRequired) {
-    this.userService.registerUser(this.user).subscribe(korisnik => {
-      this.checkUser = korisnik as UserRegistration;
-      if(korisnik) {
-        window.location.href = 'http://localhost:4200';
+    console.log("Moze da se registruje");
+    this.userService.registerUser(this.user).subscribe(
+      data=>
+      {
+        console.log(data);
+        this.toastrService.success(data.error, 'Success');
+      },
+      error=>
+      {
+        console.log(error);
+        this.toastrService.error(error.error, 'Error');
       }
-     }
     )
   }
 

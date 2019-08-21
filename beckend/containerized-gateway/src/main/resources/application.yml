@@ -17,9 +17,6 @@ zuul:
     containerized-auth:
       path: /auth-service/**
       serviceId: auth-service
-  ribbon:
-    ConnectTimeout: 120000
-    ReadTimeout: 120000
   
 eureka:
   instance:

@@ -41,10 +41,7 @@ public class UserService {
 	}
 
 	public void saveAddress(Address address) {
-		Address a = addressRepository.findByXCordAndYCord(address.getxCord(), address.getyCord());
-		if(a==null) {
-			addressRepository.save(address);
-		}
+		addressRepository.save(address);
 	}
 
 	public User getByEmail(String email) {

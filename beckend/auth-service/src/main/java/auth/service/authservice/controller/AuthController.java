@@ -45,7 +45,6 @@ import auth.service.authservice.security.JwtTokenProvider;
 import auth.service.authservice.service.UserService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RequestMapping("api/auth")
 public class AuthController {
 	
@@ -92,7 +91,7 @@ public class AuthController {
 		
 		try {
 			address = getCordinates(u.getAdress(), u.getCity());
-			address.setAddressName(u.getAdress());
+			address.setName(u.getAdress());
 			userService.saveAddress(address);
 String salt = org.springframework.security.crypto.bcrypt.BCrypt.gensalt();
 			
@@ -103,8 +102,10 @@ String salt = org.springframework.security.crypto.bcrypt.BCrypt.gensalt();
 			User newUser = new User(u.getName(), u.getSurname(), new byte[10], u.getTelephone(), u.getEmail(), hashedPass, u.getCity(), address, Collections.singleton(userService.findByName("registeredUser")));
 			//User newUser = new User(u.getName(), u.getSurname(), new byte[10], u.getTelephone(), u.getEmail(), passwordEncoder.encode(u.getPassword()), u.getCity(), address, Collections.singleton(userService.findByName("registeredUser")));
 			userService.registerUser(newUser);
-			
-			return new ResponseEntity<>(newUser, HttpStatus.OK);
+
+			System.out.println("ISPIS???");
+			return new ResponseEntity<>("User is registered", HttpStatus.CREATED);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			return new ResponseEntity<>("Address is wrong", HttpStatus.BAD_REQUEST);
